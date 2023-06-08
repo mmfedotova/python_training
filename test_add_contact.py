@@ -5,6 +5,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 import unittest
 from webdriver_manager.firefox import GeckoDriverManager
+from full_name import Name
 
 class TestAddContact(unittest.TestCase):
     def setUp(self):
@@ -16,7 +17,7 @@ class TestAddContact(unittest.TestCase):
         self.open_home_page(wd)
         self.login(wd)
         self.open_add_contact_page(wd)
-        self.add_full_name(wd)
+        self.add_full_name(wd, Name(firstname= "Sergei", middlename="Ivanovich", lastname="Smirmov", nickname= "test"))
         self.add_photo_to_contact()
         self.add_company_to_contact(wd)
         self.add_telephones_to_contact(wd)
@@ -115,20 +116,20 @@ class TestAddContact(unittest.TestCase):
         # wd.find_element_by_name("photo").send_keys("C:\\fakepath\\test_photo.png")
 
 
-    def add_full_name(self, wd):
+    def add_full_name(self, wd, name):
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
-        wd.find_element_by_name("firstname").send_keys("Ivan")
+        wd.find_element_by_name("firstname").send_keys(name.firstname)
         wd.find_element_by_name("middlename").click()
         wd.find_element_by_name("middlename").clear()
-        wd.find_element_by_name("middlename").send_keys("Ivanovich")
+        wd.find_element_by_name("middlename").send_keys(name.middlename)
         wd.find_element_by_name("theform").click()
         wd.find_element_by_name("lastname").click()
         wd.find_element_by_name("lastname").clear()
-        wd.find_element_by_name("lastname").send_keys("Ivanov")
+        wd.find_element_by_name("lastname").send_keys(name.lastname)
         wd.find_element_by_name("nickname").click()
         wd.find_element_by_name("nickname").clear()
-        wd.find_element_by_name("nickname").send_keys("IvanIvanov")
+        wd.find_element_by_name("nickname").send_keys(name.nickname)
 
     def open_add_contact_page(self, wd):
         wd.find_element_by_link_text("add new").click()
