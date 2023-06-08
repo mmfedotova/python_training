@@ -6,6 +6,7 @@ from selenium.common.exceptions import NoAlertPresentException
 import unittest
 from webdriver_manager.firefox import GeckoDriverManager
 from full_name import Name
+from company import Company
 
 class TestAddContact(unittest.TestCase):
     def setUp(self):
@@ -19,7 +20,7 @@ class TestAddContact(unittest.TestCase):
         self.open_add_contact_page(wd)
         self.add_full_name(wd, Name(firstname= "Sergei", middlename="Ivanovich", lastname="Smirmov", nickname= "test"))
         self.add_photo_to_contact()
-        self.add_company_to_contact(wd)
+        self.add_company_to_contact(wd, Company(title="title", company="shop", address="Moscow"))
         self.add_telephones_to_contact(wd)
         self.add_email_to_contact(wd)
         self.add_birthday_to_contact(wd)
@@ -98,16 +99,16 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("fax").clear()
         wd.find_element_by_name("fax").send_keys("09992")
 
-    def add_company_to_contact(self, wd):
+    def add_company_to_contact(self, wd, company):
         wd.find_element_by_name("title").click()
         wd.find_element_by_name("title").clear()
-        wd.find_element_by_name("title").send_keys("test")
+        wd.find_element_by_name("title").send_keys(company.title)
         wd.find_element_by_name("company").click()
         wd.find_element_by_name("company").clear()
-        wd.find_element_by_name("company").send_keys("Bank")
+        wd.find_element_by_name("company").send_keys(company.company)
         wd.find_element_by_name("address").click()
         wd.find_element_by_name("address").clear()
-        wd.find_element_by_name("address").send_keys("Moscow")
+        wd.find_element_by_name("address").send_keys(company.address)
 
     def add_photo_to_contact(self):
         pass
