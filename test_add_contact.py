@@ -7,7 +7,7 @@ import unittest
 from webdriver_manager.firefox import GeckoDriverManager
 from full_name import Name
 from company import Company
-
+from emails import Emails
 class TestAddContact(unittest.TestCase):
     def setUp(self):
         self.wd = webdriver.Firefox(executable_path=GeckoDriverManager().install())
@@ -22,7 +22,7 @@ class TestAddContact(unittest.TestCase):
         self.add_photo_to_contact()
         self.add_company_to_contact(wd, Company(title="title", company="shop", address="Moscow"))
         self.add_telephones_to_contact(wd)
-        self.add_email_to_contact(wd)
+        self.add_email_to_contact(wd, Emails(email="test@mail.com", email2= "test2@mail.com", email3="test3@mail.com", homepage= "test.com"))
         self.add_birthday_to_contact(wd)
         self.add_anniversary(wd)
         self.add_secondary(wd)
@@ -71,19 +71,19 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("byear").clear()
         wd.find_element_by_name("byear").send_keys("1998")
 
-    def add_email_to_contact(self, wd):
+    def add_email_to_contact(self, wd, emails):
         wd.find_element_by_name("email").click()
         wd.find_element_by_name("email").clear()
-        wd.find_element_by_name("email").send_keys("test@mail.com")
+        wd.find_element_by_name("email").send_keys(emails.email)
         wd.find_element_by_name("email2").click()
         wd.find_element_by_name("email2").clear()
-        wd.find_element_by_name("email2").send_keys("test2@mail.com")
+        wd.find_element_by_name("email2").send_keys(emails.email2)
         wd.find_element_by_name("email3").click()
         wd.find_element_by_name("email3").clear()
-        wd.find_element_by_name("email3").send_keys("test3@gmail.com")
+        wd.find_element_by_name("email3").send_keys(emails.email3)
         wd.find_element_by_name("homepage").click()
         wd.find_element_by_name("homepage").clear()
-        wd.find_element_by_name("homepage").send_keys("example.com")
+        wd.find_element_by_name("homepage").send_keys(emails.homepage)
 
     def add_telephones_to_contact(self, wd):
         wd.find_element_by_name("home").click()
