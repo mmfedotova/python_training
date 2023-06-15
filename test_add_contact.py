@@ -14,11 +14,8 @@ class TestAddContact(unittest.TestCase):
     
     def test_add_contact(self):
         wd = self.wd
-        self.open_home_page(wd)
         self.login(wd)
-        self.open_add_contact_page(wd)
         self.add_contact(wd, Contact(firstname= "Sergei", middlename="Ivanovich", lastname="Smirmov", nickname= "test", title="title", company="shop", address="Moscow", email="test@mail.com", email2= "test2@mail.com", email3="test3@mail.com", homepage= "test.com"))
-        self.return_to_home_page(wd)
         self.logout(wd)
 
     def logout(self, wd):
@@ -28,6 +25,7 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_link_text("home page").click()
 
     def add_contact(self, wd, contact):
+        self.open_add_contact_page(wd)
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
         wd.find_element_by_name("firstname").send_keys(contact.firstname)
@@ -107,6 +105,7 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("notes").clear()
         wd.find_element_by_name("notes").send_keys("call after")
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
+        self.return_to_home_page(wd)
     def open_add_contact_page(self, wd):
         wd.find_element_by_link_text("add new").click()
 
@@ -114,6 +113,7 @@ class TestAddContact(unittest.TestCase):
         wd.get("http://localhost/addressbook/")
 
     def login(self, wd):
+        self.open_home_page(wd)
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys("admin")
