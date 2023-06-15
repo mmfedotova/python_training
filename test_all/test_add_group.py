@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-from group import Group
+from model.group import Group
+
 
 def test_add_group(app):
-    app.login()
+    app.session.login()
     app.create_group(Group(name="testName", header="test", footer="test"))
-    app.logout()
+    app.session.logout()
