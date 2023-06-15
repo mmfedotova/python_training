@@ -1,5 +1,8 @@
 from selenium import webdriver
 from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver.support.ui import Select
+
+
 class Application:
     def __init__(self):
         self.wd = webdriver.Firefox(executable_path=GeckoDriverManager().install())
