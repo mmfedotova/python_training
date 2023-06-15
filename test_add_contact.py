@@ -13,19 +13,21 @@ class TestAddContact(unittest.TestCase):
         self.wd.implicitly_wait(30)
     
     def test_add_contact(self):
-        wd = self.wd
-        self.login(wd)
-        self.add_contact(wd, Contact(firstname= "Sergei", middlename="Ivanovich", lastname="Smirmov", nickname= "test", title="title", company="shop", address="Moscow", email="test@mail.com", email2= "test2@mail.com", email3="test3@mail.com", homepage= "test.com"))
-        self.logout(wd)
+        self.login()
+        self.create_contact(Contact(firstname= "Sergei", middlename="Ivanovich", lastname="Smirmov", nickname= "test", title="title", company="shop", address="Moscow", email="test@mail.com", email2= "test2@mail.com", email3="test3@mail.com", homepage= "test.com"))
+        self.logout()
 
-    def logout(self, wd):
+    def logout(self):
+        wd = self.wd
         wd.find_element_by_link_text("Logout").click()
 
-    def return_to_home_page(self, wd):
+    def return_to_home_page(self):
+        wd = self.wd
         wd.find_element_by_link_text("home page").click()
 
-    def add_contact(self, wd, contact):
-        self.open_add_contact_page(wd)
+    def create_contact(self, contact):
+        wd = self.wd
+        self.open_add_contact_page()
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
         wd.find_element_by_name("firstname").send_keys(contact.firstname)
@@ -105,15 +107,18 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("notes").clear()
         wd.find_element_by_name("notes").send_keys("call after")
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
-        self.return_to_home_page(wd)
-    def open_add_contact_page(self, wd):
+        self.return_to_home_page()
+    def open_add_contact_page(self):
+        wd = self.wd
         wd.find_element_by_link_text("add new").click()
 
-    def open_home_page(self, wd):
+    def open_home_page(self):
+        wd = self.wd
         wd.get("http://localhost/addressbook/")
 
-    def login(self, wd):
-        self.open_home_page(wd)
+    def login(self):
+        wd = self.wd
+        self.open_home_page()
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys("admin")

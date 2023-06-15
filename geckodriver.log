@@ -611,3 +611,43 @@ console.warn: LoginRecipes: "Falling back to a synchronous message for: http://l
 Dynamically enable window occlusion 1
 console.error: (new AbortError("Actor 'LoginManager' destroyed before query 'PasswordManager:findLogins' was resolved", (void 0)))
 console.error: (new AbortError("IndexedDB: main/password-recipes list() IndexedDB:  execute() A request was aborted, for example through a call to IDBTransaction.abort.", "resource://services-settings/IDBHelpers.jsm", 18))
+1686830734864	geckodriver	INFO	Listening on 127.0.0.1:59253
+1686830737901	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-no-remote" "-profile" "C:\\Users\\admin\\AppData\\Local\\Temp\\rust_mozprofileYPIpj9"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1686830738093	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1686830738096	Marionette	INFO	Listening on port 59264
+Read port: 59264
+1686830738413	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1686830739255	Marionette	INFO	Stopped listening on port 59264
+Dynamically enable window occlusion 1
+console.error: (new AbortError("IndexedDB: main/doh-providers list() IndexedDB:  execute() A request was aborted, for example through a call to IDBTransaction.abort.", "resource://services-settings/IDBHelpers.jsm", 18))
+console.error: (new Error("IndexedDB: main/doh-config getLastModified() IndexedDB:  execute() The application is shutting down", "resource://services-settings/IDBHelpers.jsm", 18))
+1686832432920	geckodriver	INFO	Listening on 127.0.0.1:60398
+1686832435958	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-no-remote" "-profile" "C:\\Users\\admin\\AppData\\Local\\Temp\\rust_mozprofilebQHakq"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1686832436150	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1686832436152	Marionette	INFO	Listening on port 60408
+Read port: 60408
+1686832436483	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1686832443886	Marionette	WARN	Ignoring event 'pageshow' because document has an invalid readyState of 'uninitialized'.
+1686832443925	Marionette	INFO	Stopped listening on port 60408
+Dynamically enable window occlusion 1
+1686833627001	geckodriver	INFO	Listening on 127.0.0.1:63840
+1686833630024	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "-no-remote" "-profile" "C:\\Users\\admin\\AppData\\Local\\Temp\\rust_mozprofile8AWMGW"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1686833630217	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1686833630220	Marionette	INFO	Listening on port 63852
+Read port: 63852
+1686833630554	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: LoginRecipes: "Falling back to a synchronous message for: http://localhost."
+console.warn: LoginRecipes: "Falling back to a synchronous message for: http://localhost."
+1686833640280	Marionette	INFO	Stopped listening on port 63852
+Dynamically enable window occlusion 1
+console.error: (new AbortError("Actor 'LoginManager' destroyed before query 'PasswordManager:findLogins' was resolved", (void 0)))
+console.error: (new AbortError("IndexedDB: main/password-recipes list() IndexedDB:  execute() A request was aborted, for example through a call to IDBTransaction.abort.", "resource://services-settings/IDBHelpers.jsm", 18))
