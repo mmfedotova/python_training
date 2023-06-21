@@ -5,6 +5,7 @@ from model.contact import Contact
 
 
 def test_add_contact(app):
+    time.sleep(1)
     app.session.login()
     app.contact.create(
         Contact(firstname="Sergei", middlename="Ivanovich", lastname="Smirmov", nickname="test", title="title",
@@ -16,6 +17,7 @@ def test_add_contact(app):
 def test_edit_first_contact(app):
     time.sleep(1)
     app.session.login()
+    app.open_home_page()
     app.contact.edit_first(
         Contact(firstname="Ivan", middlename="Semenovich", lastname="Ivanov", nickname="tester", title="title1",
                 company="shop1", address="NY", email="test@gmail.com", email2="test2@gmail.com",
@@ -26,5 +28,6 @@ def test_edit_first_contact(app):
 def test_delete_first_contact(app):
     time.sleep(1)
     app.session.login()
+    app.open_home_page()
     app.contact.delete_first()
     app.session.logout()
