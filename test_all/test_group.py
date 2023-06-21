@@ -17,9 +17,10 @@ def test_edit_group(app):
     app.group.edit_first(Group(name="testName1", header="test1", footer="test1"))
     app.session.logout()
 
+
 def test_delete_first_group(app):
-        time.sleep(1)
-        app.session.login()
-        app.group.open_groups_page()
-        app.group.delete_first()
-        app.session.logout()
+    time.sleep(1)
+    app.session.login()
+    app.group.open_groups_page()
+    app.group.delete_first()
+    app.session.logout()
