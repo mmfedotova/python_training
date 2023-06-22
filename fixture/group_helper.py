@@ -54,3 +54,8 @@ class GroupHelper:
         wd.find_element_by_name("group_footer").click()
         wd.find_element_by_name("group_footer").clear()
         wd.find_element_by_name("group_footer").send_keys(group.footer)
+
+    def count_groups(self):
+        wd = self.wd
+        self.open_groups_page()
+        return len(wd.find_elements_by_name("selected[]"))

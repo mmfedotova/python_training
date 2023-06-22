@@ -106,3 +106,8 @@ class ContactHelper:
         wd.find_element_by_name("notes").clear()
         wd.find_element_by_name("notes").send_keys("call after")
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
+
+    def count_contacts(self):
+        wd = self.wd
+        self.app.open_home_page()
+        return len(wd.find_elements_by_name("selected[]"))
