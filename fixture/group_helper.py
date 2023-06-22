@@ -8,7 +8,7 @@ class GroupHelper:
         wd.find_element_by_id("header").click()
         wd.find_element_by_link_text("groups").click()
 
-    def create(self, group):
+    def create_group(self, group):
         wd = self.wd
         self.open_groups_page()
         # init group creation
@@ -23,15 +23,21 @@ class GroupHelper:
         wd = self.wd
         wd.find_element_by_link_text("groups").click()
 
-    def delete_first(self):
+    def select_first_group(self):
         wd = self.wd
         wd.find_element_by_name("selected[]").click()
+
+    def delete_first_group(self):
+        wd = self.wd
+        self.open_groups_page()
+        self.select_first_group()
         wd.find_element_by_name("delete").click()
         self.return_to_group_page()
 
-    def edit_first(self, group):
+    def edit_first_group(self, group):
         wd = self.wd
-        wd.find_element_by_name("selected[]").click()
+        self.open_groups_page()
+        self.select_first_group()
         wd.find_element_by_name("edit").click()
         self.fill_groups_form(group)
         wd.find_element_by_name("update").click()
