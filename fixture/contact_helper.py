@@ -23,7 +23,7 @@ class ContactHelper:
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath("//input[@type='button' and @value='Delete']").click()
         wd.switch_to.alert.accept()
-        #self.app.return_to_home_page()
+        # self.app.return_to_home_page()
         self.app.open_home_page()
 
     def edit_first_contact(self, contact):
@@ -125,3 +125,4 @@ class ContactHelper:
             id = element.find_element_by_name("selected[]").get_attribute("value")
             contacts.append(Contact(lastname=text, id=id))
         return contacts
+
