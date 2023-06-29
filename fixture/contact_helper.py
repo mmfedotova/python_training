@@ -125,4 +125,3 @@ class ContactHelper:
             id = element.find_element_by_name("selected[]").get_attribute("value")
             contacts.append(Contact(lastname=text, id=id))
         return contacts
-
