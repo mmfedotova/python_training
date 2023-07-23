@@ -1,25 +1,12 @@
 # -*- coding: utf-8 -*-
-import pytest
 
 from model.group import Group
 import time
 from random import randrange
-import random
-import string
 
 
-def random_string(prefix, maxlen):
-    symbols = string.ascii_letters + string.digits + string.punctuation + " "*10
-    return prefix + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
-
-
-testdata = [Group(name="", header="", footer="")] + [
-    Group(name=random_string("name", 10), header=random_string("header", 20), footer=random_string("footer", 20))
-    for i in range(5)]
-
-
-@pytest.mark.parametrize("group", testdata, ids=[repr(x) for x in testdata])
-def test_add_group(app, group):
+def test_add_group(app, data_groups):
+    group = data_groups
     time.sleep(1)
     old_groups = app.group.get_group_list()
     app.group.create_group(group)
