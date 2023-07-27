@@ -7,8 +7,8 @@ from random import randrange
 import re
 
 
-def test_add_contact(app, data_contacts):
-    contact = data_contacts
+def test_add_contact(app, json_contacts):
+    contact = json_contacts
     time.sleep(1)
     old_contacts = app.contact.get_contact_list()
     app.contact.create_contact(contact)
