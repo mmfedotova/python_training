@@ -3,22 +3,25 @@ import time
 import pytest
 
 from model.contact import Contact
-from random import randrange
+import random
 import re
 
 
-def test_add_contact(app, json_contacts):
+def test_add_contact(app, db, json_contacts, check_ui):
     contact = json_contacts
     time.sleep(1)
-    old_contacts = app.contact.get_contact_list()
+    old_contacts = db.get_contact_list()
     app.contact.create_contact(contact)
     assert len(old_contacts) + 1 == app.contact.count_contacts()
-    new_contacts = app.contact.get_contact_list()
+    new_contacts = db.get_contact_list()
     old_contacts.append(contact)
     assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
+    if check_ui:
+        assert sorted(new_contacts, key=Contact.id_or_max) == sorted(app.contact.get_contact_list(),
+                                                                     key=Contact.id_or_max)
 
 
-def test_edit_some_contact(app):
+def test_edit_some_contact(app, db, check_ui):
     time.sleep(1)
     app.open_home_page()
     if app.contact.count_contacts() == 0:
@@ -28,39 +31,39 @@ def test_edit_some_contact(app):
                     workphone="21223", secondaryphone="1121222", title="title",
                     company="shop", address="Moscow", email="test@mail.com", email2="test2@mail.com",
                     email3="test3@mail.com", homepage="test.com"))
-    old_contacts = app.contact.get_contact_list()
-    index = randrange(len(old_contacts))
-    contact = Contact(firstname="Ivan", middlename="Semenovich", lastname="Ivanov", nickname="tester",
-                      homephone="12132", mobilephone="22122",
-                      workphone="21223", secondaryphone="1121222", title="title1",
-                      company="shop1", address="NY", email="test@gmail.com", email2="test2@gmail.com",
-                      email3="test3@gmail.com", homepage="tester.com")
-    contact.id = old_contacts[index].id
-    app.contact.edit_contact_by_index(contact, index)
-    assert len(old_contacts) == app.contact.count_contacts()
-    new_contacts = app.contact.get_contact_list()
-    old_contacts[index] = contact
+    old_contacts = db.get_contact_list()
+    contact = random.choice(old_contacts)
+    contact.firstname = Contact(firstname="Ivan").firstname
+    app.contact.edit_contact_by_id(contact)
+    assert len(old_contacts) == len(db.get_contact_list())
+    new_contacts = db.get_contact_list()
     assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
+    if check_ui:
+        assert sorted(new_contacts, key=Contact.id_or_max) == sorted(app.contact.get_contact_list(),
+                                                                     key=Contact.id_or_max)
 
 
-def test_delete_some_contact(app):
+def test_delete_some_contact(app, db, check_ui):
     time.sleep(1)
     app.open_home_page()
-    if app.contact.count_contacts() == 0:
+    if len(db.get_contact_list()) == 0:
         app.contact.create_contact(
             Contact(firstname="Sergei", middlename="Ivanovich", lastname="Smirmov", nickname="test", homephone="12132",
                     mobilephone="22122",
                     workphone="21223", secondaryphone="1121222", title="title",
                     company="shop", address="Moscow", email="test@mail.com", email2="test2@mail.com",
                     email3="test3@mail.com", homepage="test.com"))
-    old_contacts = app.contact.get_contact_list()
-    index = randrange(len(old_contacts))
-    app.contact.delete_contact_by_index(index)
+    old_contacts = db.get_contact_list()
+    contact = random.choice(old_contacts)
+    app.contact.delete_contact_by_id(contact.id)
     time.sleep(1)
     assert len(old_contacts) - 1 == app.contact.count_contacts()
-    new_contacts = app.contact.get_contact_list()
-    old_contacts[index:index + 1] = []
+    new_contacts = db.get_contact_list()
+    old_contacts.remove(contact)
     assert old_contacts == new_contacts
+    if check_ui:
+        assert sorted(new_contacts, key=Contact.id_or_max) == sorted(app.contact.get_contact_list(),
+                                                                     key=Contact.id_or_max)
 
 
 def test_contact_on_home_page(app):
