@@ -32,15 +32,22 @@ def test_edit_some_contact(app, db, check_ui):
                     company="shop", address="Moscow", email="test@mail.com", email2="test2@mail.com",
                     email3="test3@mail.com", homepage="test.com"))
     old_contacts = db.get_contact_list()
-    contact = random.choice(old_contacts)
-    contact.firstname = Contact(firstname="Ivan").firstname
+    edit_contact = random.choice(old_contacts)
+    contact = Contact(firstname="Ivan", middlename="Semenovich", lastname="Ivanov", nickname="tester",
+                      homephone="12132", mobilephone="22122",
+                      workphone="21223", secondaryphone="1121222", title="title1",
+                      company="shop1", address="NY", email="test@gmail.com", email2="test2@gmail.com",
+                      email3="test3@gmail.com", homepage="tester.com")
+    contact.id = edit_contact.id
+    index = old_contacts.index(edit_contact)
+    print(index)
     app.contact.edit_contact_by_id(contact)
     assert len(old_contacts) == len(db.get_contact_list())
+    old_contacts[index] = contact
     new_contacts = db.get_contact_list()
     assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
     if check_ui:
         assert sorted(new_contacts, key=Contact.id_or_max) == sorted(app.contact.get_contact_list(),
-                                                                     key=Contact.id_or_max)
 
 
 def test_delete_some_contact(app, db, check_ui):
