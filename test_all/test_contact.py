@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import time
 import pytest
-
+from model.group import Group
 from model.contact import Contact
 import random
 import re
@@ -25,13 +25,38 @@ def test_add_contact(app, db, json_contacts, check_ui):
 def test_add_contact_to_group(app, db):
     orm = ORMFixture(host="127.0.0.1", name="addressbook", user="root", password="")
     app.open_home_page()
-    old_contacts = db.get_contact_list()
-    old_groups = db.get_group_list()
-    group = random.choice(old_groups)
-    contact = random.choice(old_contacts)
+    if len(orm.get_group_list()) == 0:
+        app.group.create_group(Group(name="testName", header="test", footer="test"))
+    groups_list = orm.get_group_list()
+    group = random.choice(groups_list)
+    if len(orm.get_contact_list()) == 0 or len(orm.get_contacts_not_in_group(group)) == 0:
+        app.contact.create_contact(
+            Contact(firstname="Sergei", middlename="Ivanovich", lastname="Smirmov", nickname="test", homephone="12132",
+                    mobilephone="22122",
+                    workphone="21223", secondaryphone="1121222", title="title",
+                    company="shop", address="Moscow", email="test@mail.com", email2="test2@mail.com",
+                    email3="test3@mail.com", homepage="test.com"))
+    contacts_list = orm.get_contacts_not_in_group(group)
+    contact = random.choice(contacts_list)
     app.contact.add_contact_to_group_by_id(group, contact)
     assert contact in orm.get_contacts_in_group(group)
 
+
+def test_delete_contact_from_group(app, db):
+    orm = ORMFixture(host="127.0.0.1", name="addressbook", user="root", password="")
+    app.open_home_page()
+    if len(orm.get_group_list()) == 0:
+        app.group.create_group(Group(name="testName", header="test", footer="test"))
+    groups_list = orm.get_group_list()
+    group = random.choice(groups_list)
+    app.contact.select_group_of_contact_by_id(group)
+    if len(orm.get_contacts_in_group(group)) == 0:
+        contact = random.choice(orm.get_contacts_not_in_group(group))
+        app.contact.add_contact_to_group_by_id(contact, group)
+    contacts_list = orm.get_contacts_in_group(group)
+    contact = random.choice(contacts_list)
+    app.contact.delete_contact_from_group_by_id(contact, group)
+    assert contact not in orm.get_contacts_in_group(group)
 
 def test_edit_some_contact(app, db, check_ui):
     time.sleep(1)

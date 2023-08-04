@@ -34,13 +34,25 @@ class ContactHelper:
 
     def select_contact_by_id(self, id):
         wd = self.app.wd
+        self.app.open_home_page()
         wd.find_element_by_css_selector("input[value='%s']" % id).click()
+
+    def select_contact_for_add_by_id(self, contact):
+        wd = self.app.wd
+        self.app.open_home_page()
+        wd.find_element_by_css_selector("input[value='%s']" % contact.id).click()
 
     def add_contact_to_group_by_id(self, group, contact):
         wd = self.app.wd
-        self.select_contact_by_id(contact.id)
+        self.select_contact_for_add_by_id(contact)
         wd.find_element_by_xpath("//select[@name='to_group']/option[@value='%s']" % group.id).click()
         wd.find_element_by_xpath("//input[@type='submit' and @name='add']").click()
+
+    def delete_contact_from_group_by_id(self, group, contact):
+        wd = self.app.wd
+        self.select_contact_by_id(contact.id)
+        wd.find_element_by_xpath("//select[@name='to_group']/option[@value='%s']" % group.id).click()
+        wd.find_element_by_xpath("//input[@type='submit' and @name='remove']").click()
 
     def delete_contact_by_id(self, id):
         wd = self.wd
@@ -68,6 +80,10 @@ class ContactHelper:
         wd = self.wd
         self.app.open_home_page()
         wd.find_elements_by_css_selector("img[title = 'Details']")[index].click()
+    def select_group_of_contact_by_id(self, group):
+        wd = self.wd
+        self.app.open_home_page()
+        wd.find_element_by_xpath("//select[@name='group']/option[@value='%s']" % group.id).click()
 
     def edit_contact_by_index(self, contact, index):
         wd = self.wd
