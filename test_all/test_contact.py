@@ -5,6 +5,7 @@ import pytest
 from model.contact import Contact
 import random
 import re
+from fixture.orm import ORMFixture
 
 
 def test_add_contact(app, db, json_contacts, check_ui):
@@ -19,6 +20,17 @@ def test_add_contact(app, db, json_contacts, check_ui):
     if check_ui:
         assert sorted(new_contacts, key=Contact.id_or_max) == sorted(app.contact.get_contact_list(),
                                                                      key=Contact.id_or_max)
+
+
+def test_add_contact_to_group(app, db):
+    orm = ORMFixture(host="127.0.0.1", name="addressbook", user="root", password="")
+    app.open_home_page()
+    old_contacts = db.get_contact_list()
+    old_groups = db.get_group_list()
+    group = random.choice(old_groups)
+    contact = random.choice(old_contacts)
+    app.contact.add_contact_to_group_by_id(group, contact)
+    assert contact in orm.get_contacts_in_group(group)
 
 
 def test_edit_some_contact(app, db, check_ui):
@@ -40,7 +52,6 @@ def test_edit_some_contact(app, db, check_ui):
                       email3="test3@gmail.com", homepage="tester.com")
     contact.id = edit_contact.id
     index = old_contacts.index(edit_contact)
-    print(index)
     app.contact.edit_contact_by_id(contact)
     assert len(old_contacts) == len(db.get_contact_list())
     old_contacts[index] = contact

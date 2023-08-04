@@ -36,6 +36,12 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element_by_css_selector("input[value='%s']" % id).click()
 
+    def add_contact_to_group_by_id(self, group, contact):
+        wd = self.app.wd
+        self.select_contact_by_id(contact.id)
+        wd.find_element_by_xpath("//select[@name='to_group']/option[@value='%s']" % group.id).click()
+        wd.find_element_by_xpath("//input[@type='submit' and @name='add']").click()
+
     def delete_contact_by_id(self, id):
         wd = self.wd
         self.select_contact_by_id(id)
