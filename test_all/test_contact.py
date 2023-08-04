@@ -47,7 +47,8 @@ def test_edit_some_contact(app, db, check_ui):
     new_contacts = db.get_contact_list()
     assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
     if check_ui:
-        assert sorted(new_contacts, key=Contact.id_or_max) == sorted(app.contact.get_contact_list(), key=Contact.id_or_max)
+        assert sorted(new_contacts, key=Contact.id_or_max) == sorted(app.contact.get_contact_list(),
+                                                                     key=Contact.id_or_max)
 
 
 def test_delete_some_contact(app, db, check_ui):
@@ -73,13 +74,16 @@ def test_delete_some_contact(app, db, check_ui):
                                                                      key=Contact.id_or_max)
 
 
-def test_contact_on_home_page(app):
-    contact_from_home_page = app.contact.get_contact_list()[0]
-    contact_from_edit_page = app.contact.get_contact_info_from_edit_page(0)
-    assert contact_from_home_page.all_phones_from_home_page == merge_phones_like_on_home_page(contact_from_edit_page)
-    assert contact_from_home_page.all_emails_from_home_page == merge_emails_like_on_home_page(contact_from_edit_page)
-    assert contact_from_home_page.firstname == contact_from_edit_page.firstname
-    assert contact_from_home_page.lastname == contact_from_edit_page.lastname
+def test_contact_on_home_page(app, db):
+    contacts_from_db = sorted(db.get_contact_list(), key=Contact.id_or_max)
+    contacts_from_home_page = sorted(app.contact.get_contact_list(), key=Contact.id_or_max)
+    for i in range(len(contacts_from_db)):
+        assert contacts_from_home_page[i].lastname == contacts_from_db[i].lastname
+        assert contacts_from_home_page[i].firstname == contacts_from_db[i].firstname
+        assert contacts_from_home_page[i].all_emails_from_home_page == merge_emails_like_on_home_page(
+            contacts_from_db[i])
+        assert contacts_from_home_page[i].all_phones_from_home_page == merge_phones_like_on_home_page(
+            contacts_from_db[i])
 
 
 def test_contact_on_contact_view_page(app):
