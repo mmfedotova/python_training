@@ -24,10 +24,13 @@ def test_edit_some_group(db, app, check_ui):
     if len(db.get_group_list()) == 0:
         app.group.create_group(Group(name="testName", header="test", footer="test"))
     old_groups = db.get_group_list()
-    group = random.choice(old_groups)
-    group.name = Group(name="testName1").name
+    edit_group = random.choice(old_groups)
+    group = Group(name="testName1", header="test1", footer="test1")
+    group.id = edit_group.id
     app.group.edit_group_by_id(group)
+    index = old_groups.index(edit_group)
     assert len(old_groups) == app.group.count_groups()
+    old_groups[index] = group
     new_groups = db.get_group_list()
     assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
     if check_ui:

@@ -18,25 +18,31 @@ class DbFixture:
             cursor.execute("select group_id, group_name, group_header, group_footer from group_list")
             for row in cursor:
                 (id, name, header, footer) = row
-                list.append(Group(id=str(id), name=name, header=header, footer=footer))
+                list.append(Group(id=str(id), name=name))
         finally:
             cursor.close()
         return list
 
     def get_contact_list(self):
+
         list = []
         cursor = self.connection.cursor()
+
         try:
             cursor.execute(
-                "select id, firstname, middlename, lastname,home, mobile, work, phone2, email, email2, email3 from addressbook where deprecated='0000-00-00 00:00:00'")
+                "select id, firstname, lastname, home, mobile, work, phone2, email, email2, email3 from addressbook where deprecated='0000-00-00 00:00:00'")
             for row in cursor:
-                (id, firstname, middlename, lastname, home, mobile, work, phone2, email, email2, email3) = row
+                (id, firstname, lastname, homephone, mobilephone, workphone, secondaryphone, email, email2,
+                 email3) = row
                 list.append(
-                    Contact(id=id, firstname=firstname, middlename=middlename, lastname=lastname, homephone=home,
-                            mobilephone=mobile,
-                            workphone=work, secondaryphone=phone2, email=email, email2=email2, email3=email3))
+                    Contact(id=str(id), firstname=firstname, lastname=lastname,
+                            homephone=homephone,
+                            mobilephone=mobilephone,
+                            workphone=workphone, secondaryphone=secondaryphone, email=email, email2=email2,
+                            email3=email3))
         finally:
             cursor.close()
+
         return list
 
     def destroy(self):
