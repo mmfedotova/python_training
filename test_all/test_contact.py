@@ -38,7 +38,7 @@ def test_add_contact_to_group(app, db):
                     email3="test3@mail.com", homepage="test.com"))
     contacts_list = orm.get_contacts_not_in_group(group)
     contact = random.choice(contacts_list)
-    app.contact.add_contact_to_group_by_id(group, contact)
+    app.contact.add_contact_to_group_by_id(contact, group)
     assert contact in orm.get_contacts_in_group(group)
 
 
@@ -57,6 +57,7 @@ def test_delete_contact_from_group(app, db):
     contact = random.choice(contacts_list)
     app.contact.delete_contact_from_group_by_id(contact, group)
     assert contact not in orm.get_contacts_in_group(group)
+
 
 def test_edit_some_contact(app, db, check_ui):
     time.sleep(1)

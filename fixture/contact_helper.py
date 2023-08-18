@@ -42,15 +42,16 @@ class ContactHelper:
         self.app.open_home_page()
         wd.find_element_by_css_selector("input[value='%s']" % contact.id).click()
 
-    def add_contact_to_group_by_id(self, group, contact):
+    def add_contact_to_group_by_id(self, contact, group):
         wd = self.app.wd
         self.select_contact_for_add_by_id(contact)
         wd.find_element_by_xpath("//select[@name='to_group']/option[@value='%s']" % group.id).click()
         wd.find_element_by_xpath("//input[@type='submit' and @name='add']").click()
 
-    def delete_contact_from_group_by_id(self, group, contact):
+    def delete_contact_from_group_by_id(self, contact, group):
         wd = self.app.wd
         self.select_contact_by_id(contact.id)
+        # TODO поправить на нужный select
         wd.find_element_by_xpath("//select[@name='to_group']/option[@value='%s']" % group.id).click()
         wd.find_element_by_xpath("//input[@type='submit' and @name='remove']").click()
 
@@ -80,6 +81,7 @@ class ContactHelper:
         wd = self.wd
         self.app.open_home_page()
         wd.find_elements_by_css_selector("img[title = 'Details']")[index].click()
+
     def select_group_of_contact_by_id(self, group):
         wd = self.wd
         self.app.open_home_page()
@@ -195,7 +197,7 @@ class ContactHelper:
                 cells = row.find_elements_by_tag_name("td")
                 lastname = cells[1].text
                 firstname = cells[2].text
-                id = cells[0].find_element_by_name("selected[]").get_attribute("value")
+                id = cells[0].find_element_by_name("a").get_attribute("value")
                 all_phones = cells[5].text
                 all_emails = cells[4].text
                 self.contact_cache.append(
