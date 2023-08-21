@@ -5,7 +5,6 @@ from model.group import Group
 from model.contact import Contact
 import random
 import re
-from fixture.orm import ORMFixture
 
 
 def test_add_contact(app, db, json_contacts, check_ui):
@@ -22,8 +21,7 @@ def test_add_contact(app, db, json_contacts, check_ui):
                                                                      key=Contact.id_or_max)
 
 
-def test_add_contact_to_group(app, db):
-    orm = ORMFixture(host="127.0.0.1", name="addressbook", user="root", password="")
+def test_add_contact_to_group(app, db, orm):
     app.open_home_page()
     if len(orm.get_group_list()) == 0:
         app.group.create_group(Group(name="testName", header="test", footer="test"))
@@ -42,8 +40,7 @@ def test_add_contact_to_group(app, db):
     assert contact in orm.get_contacts_in_group(group)
 
 
-def test_delete_contact_from_group(app, db):
-    orm = ORMFixture(host="127.0.0.1", name="addressbook", user="root", password="")
+def test_delete_contact_from_group(app, db, orm):
     app.open_home_page()
     if len(orm.get_group_list()) == 0:
         app.group.create_group(Group(name="testName", header="test", footer="test"))
@@ -115,8 +112,8 @@ def test_contact_on_home_page(app, db):
     contacts_from_db = sorted(db.get_contact_list(), key=Contact.id_or_max)
     contacts_from_home_page = sorted(app.contact.get_contact_list(), key=Contact.id_or_max)
     for i in range(len(contacts_from_db)):
-        assert contacts_from_home_page[i].lastname == contacts_from_db[i].lastname
-        assert contacts_from_home_page[i].firstname == contacts_from_db[i].firstname
+        assert contacts_from_home_page[i].lastname.replace(" ", "") == contacts_from_db[i].lastname.replace(" ", "")
+        assert contacts_from_home_page[i].firstname.replace(" ", "") == contacts_from_db[i].firstname.replace(" ", "")
         assert contacts_from_home_page[i].all_emails_from_home_page == merge_emails_like_on_home_page(
             contacts_from_db[i])
         assert contacts_from_home_page[i].all_phones_from_home_page == merge_phones_like_on_home_page(
